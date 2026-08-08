@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c ' *)",
+      "Bash(nohup python -m src.training.finetune_codontransformer_baseline --epochs 3 --batch_size 4 --grad_accum 4 --lr 2e-5 --max_protein_len 500)",
+      "Bash(tail -n 20 /tmp_codontransformer_finetune_v2.log)",
+      "PowerShell(Get-CimInstance Win32_Process -Filter \"name='python.exe'\" | Select-Object ProcessId, @{n='Cmd';e={$_.CommandLine.Substring\\(0,[Math]::Min\\(100,$_.CommandLine.Length\\)\\)}})",
+      "Bash(taskkill //PID 17668 //F)",
+      "Bash(tail -n 25 /tmp_codontransformer_finetune_v3.log)",
+      "Bash(grep -q -E \"step 50/|Fine-tuning complete|Traceback|CUDA out of memory\" /tmp_codontransformer_finetune_v3.log)",
+      "Bash(tail -n 20 /tmp_codontransformer_finetune_v3.log)",
+      "Bash(grep -q -E \"Fine-tuning complete|Traceback|CUDA out of memory\" /tmp_codontransformer_finetune_v3.log)",
+      "Bash(tail -n 40 /tmp_codontransformer_finetune_v3.log)",
+      "Bash(tail -n 15 /tmp_codontransformer_finetune_v3.log)",
+      "Bash(nohup python -m src.evaluation.evaluate_finetuned_codontransformer)",
+      "Bash(tail -n 15 /tmp_finetuned_eval.log)",
+      "Bash(grep -q -E \"FINE-TUNED EVAL COMPLETE|Traceback|CUDA out of memory\" /tmp_finetuned_eval.log)",
+      "Bash(tail -n 30 /tmp_finetuned_eval.log)",
+      "Bash(nohup python -m scripts.recompute_markov_analysis)",
+      "Bash(tail -n 20 /tmp_markov_recompute.log)",
+      "Bash(grep -q -E \"MARKOV RECOMPUTE COMPLETE|Traceback|CUDA out of memory\" /tmp_markov_recompute.log)",
+      "Bash(python -c \"print\\(abs\\(0.4659-0.4388\\)\\)\")",
+      "Bash(python -c \"print\\(abs\\(-175.51-\\(-165.2\\)\\)\\)\")",
+      "Bash(echo \"GC=0.4659 \\(delta=$\\(python -c \"print\\(abs\\(0.4659-0.4388\\)\\)\"\\)'\\)  MFE=-175.51 \\(delta=$\\(python -c \"print\\(abs\\(-175.51-\\(-165.2\\)\\)\\)\"\\)\\)  BLEU=0.2436  mt_cai=0.7846\")",
+      "Bash(nvidia-smi --query-gpu=name,memory.total,memory.used,memory.free,utilization.gpu --format=csv)",
+      "Bash(nohup python -m scripts.compute_finetuned_ct_deltas)",
+      "Bash(tail -n 10 /tmp_ct_deltas.log)",
+      "Bash(grep -q -E \"DELTAS COMPUTE COMPLETE|Traceback\" /tmp_ct_deltas.log)",
+      "Bash(echo \"exit code: $?\")",
+      "Bash(python -c \"import docx; print\\('python-docx available, version check:'\\); print\\(docx.__file__\\)\")",
+      "Bash(python \"/c/Users/Sravan/AppData/Local/Temp/claude/c--Users-Sravan-GeMet/81d1725c-f76a-4ff3-9ac8-6c9bf02c310b/scratchpad/build_explainer_docx.py\")",
+      "WebFetch(domain:arcinstitute.org)",
+      "WebFetch(domain:research.nvidia.com)",
+      "Bash(git -C \".\" status)",
+      "Bash(git config *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git rm *)"
+    ]
+  }
+}

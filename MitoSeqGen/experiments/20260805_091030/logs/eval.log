@@ -1,0 +1,58 @@
+2026-08-05 17:10:32,149 Loading records and splits...
+2026-08-05 17:10:34,460 Train records: 36471 | Test records: 5155
+2026-08-05 17:10:34,460 Evaluating on 200 held-out test-set proteins (species never seen in train/val)
+2026-08-05 17:10:34,460 Building baselines from training corpus...
+2026-08-05 17:10:39,908 Computing training-corpus RSCU weight table for mt-CAI scoring...
+2026-08-05 17:10:41,230 Hashing training sequences for novel-sequence-rate check...
+2026-08-05 17:10:41,298 Loading model from experiments\20260805_091030\checkpoints\best.pt on cuda...
+C:\Users\Sravan\AppData\Local\Programs\Python\Python310\lib\site-packages\torch\nn\modules\transformer.py:306: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.self_attn.batch_first was not True(use batch_first for better inference performance)
+  warnings.warn(f"enable_nested_tensor is True, but self.use_nested_tensor is False because {why_not_sparsity_fast_path}")
+C:\Users\Sravan\AppData\Local\Programs\Python\Python310\lib\site-packages\torch\nn\functional.py:5504: UserWarning: 1Torch was not compiled with flash attention. (Triggered internally at ..\aten\src\ATen\native\transformers\cuda\sdp_utils.cpp:455.)
+  attn_output = scaled_dot_product_attention(q, k, v, attn_mask, dropout_p, is_causal)
+2026-08-05 17:12:13,679   25/200 evaluated (92s elapsed, ~3.7s/sequence)
+2026-08-05 17:13:18,243   50/200 evaluated (157s elapsed, ~3.1s/sequence)
+2026-08-05 17:15:28,732   75/200 evaluated (287s elapsed, ~3.8s/sequence)
+2026-08-05 17:17:18,313   100/200 evaluated (397s elapsed, ~4.0s/sequence)
+2026-08-05 17:18:54,079   125/200 evaluated (492s elapsed, ~3.9s/sequence)
+2026-08-05 17:20:41,561   150/200 evaluated (600s elapsed, ~4.0s/sequence)
+2026-08-05 17:22:28,050   175/200 evaluated (706s elapsed, ~4.0s/sequence)
+2026-08-05 17:24:08,582   200/200 evaluated (807s elapsed, ~4.0s/sequence)
+2026-08-05 17:24:08,706 Saved evaluation report (incl. raw results + significance tests) to data\qc_reports\evaluation_report_model2.json
+
+metric                 mitoseqgen             mt_cai_lookup          random_synonymous      most_frequent_codon    codontransformer_remap natural_reference     
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+mean_mt_cai                            0.8836                 0.9931                 0.5502                 1.0000                 0.9185                 0.7418
+compliance_rate                        1.0000                 1.0000                 1.0000                 1.0000                 1.0000                 1.0000
+mean_codon_diversity                   4.5910                 3.8725                 5.4542                 3.8725                 3.8725                 5.1720
+mean_bleu                              0.3033                 0.1687                 0.0746                 0.1648                 0.1286                 1.0000
+mean_mfe                            -131.6286              -112.5359              -228.3054              -114.7239              -153.9916              -165.1681
+mean_mfe_delta_from_natural                34.8474                53.8742                63.3803                51.9031                20.6939                 0.0000
+mean_gc_content                        0.4665                 0.4044                 0.4668                 0.4243                 0.4497                 0.4378
+mean_gc_delta_from_natural                 0.0421                 0.0413                 0.0367                 0.0319                 0.0300                 0.0000
+novel_sequence_rate                    1.0000                 1.0000                 1.0000                 1.0000                 1.0000                 1.0000
+
+Wilcoxon signed-rank tests: mitoseqgen vs. each baseline
+Bonferroni-corrected alpha = 0.00250 (family-wise 0.05 / 20 comparisons)
+
+baseline                 metric                     model_mean  baseline_mean    p_value  significant
+-----------------------------------------------------------------------------------------------------
+mt_cai_lookup            mt_cai                         0.8836         0.9931   1.44e-34          yes
+mt_cai_lookup            bleu                           0.3033         0.1687   4.91e-32          yes
+mt_cai_lookup            codon_diversity                4.5910         3.8725   1.44e-34          yes
+mt_cai_lookup            mfe_delta_from_natural        34.8474        53.8742   3.39e-29          yes
+mt_cai_lookup            gc_delta_from_natural          0.0421         0.0413   8.07e-01           no
+random_synonymous        mt_cai                         0.8836         0.5502   2.47e-34          yes
+random_synonymous        bleu                           0.3033         0.0746   1.33e-33          yes
+random_synonymous        codon_diversity                4.5910         5.4542   1.44e-34          yes
+random_synonymous        mfe_delta_from_natural        34.8474        63.3803   2.16e-18          yes
+random_synonymous        gc_delta_from_natural          0.0421         0.0367   1.52e-02           no
+most_frequent_codon      mt_cai                         0.8836         1.0000   1.44e-34          yes
+most_frequent_codon      bleu                           0.3033         0.1648   1.06e-32          yes
+most_frequent_codon      codon_diversity                4.5910         3.8725   1.44e-34          yes
+most_frequent_codon      mfe_delta_from_natural        34.8474        51.9031   4.58e-29          yes
+most_frequent_codon      gc_delta_from_natural          0.0421         0.0319   2.82e-04          yes
+codontransformer_remap   mt_cai                         0.8836         0.9185   1.36e-07          yes
+codontransformer_remap   bleu                           0.3033         0.1286   8.76e-34          yes
+codontransformer_remap   codon_diversity                4.5910         3.8725   1.44e-34          yes
+codontransformer_remap   mfe_delta_from_natural        34.8474        20.6939   1.48e-20          yes
+codontransformer_remap   gc_delta_from_natural          0.0421         0.0300   8.20e-07          yes

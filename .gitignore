@@ -1,0 +1,20 @@
+# Local Claude Code settings (contains machine-specific permissions and secrets)
+.claude/settings.local.json
+
+# Large data / model artifacts (exceed GitHub's file size limits)
+*.pt
+*.pth
+*.ckpt
+data/
+MitoSeqGen/data/
+MitoSeqGen/checkpoints/
+MitoSeqGen/experiments/*/checkpoints/
+MitoSeqGen/experiments/*/checkpoint.pt
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# Local backend run logs (not experiment logs)
+MitoSeqGen/webapp/backend/*.log
+

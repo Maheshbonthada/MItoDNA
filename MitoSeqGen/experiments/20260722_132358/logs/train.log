@@ -1,0 +1,9 @@
+2026-07-22 13:23:58,679 Run directory: C:\Users\Sravan\GeMet\MitoSeqGen\experiments\20260722_132358
+2026-07-22 13:23:58,697 Environment: {'python_version': '3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]', 'torch_version': '2.3.0+cu118', 'platform': 'Windows-10-10.0.26200-SP0', 'cuda_available': True, 'gpu_name': 'NVIDIA GeForce RTX 3050', 'gpu_vram_gb': 8.59, 'cuda_version': '11.8'}
+2026-07-22 13:24:12,274 device=cuda precision=bf16 cpu_count=28 num_workers=0
+2026-07-22 13:24:12,274 Train records=109413 | Val records=4638
+2026-07-22 13:24:12,448 Model parameters: 25,203,140
+2026-07-22 13:41:13,989 Epoch 1/30 | train_loss=2.1660 | val_loss=1.0335 | elapsed=17.0min
+2026-07-22 13:41:14,068 Saved best checkpoint (val_loss=1.0335) to C:\Users\Sravan\GeMet\MitoSeqGen\experiments\20260722_132358\checkpoints\best.pt
+2026-07-22 13:58:15,216 Epoch 2/30 | train_loss=1.0601 | val_loss=0.9758 | elapsed=34.0min
+2026-07-22 13:58:15,299 Saved best checkpoint (val_loss=0.9758) to C:\Users\Sravan\GeMet\MitoSeqGen\experiments\20260722_132358\checkpoints\best.pt

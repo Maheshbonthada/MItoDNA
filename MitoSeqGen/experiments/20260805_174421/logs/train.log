@@ -1,0 +1,51 @@
+2026-08-05 17:44:21,133 Run directory: C:\Users\Sravan\GeMet\MitoSeqGen\experiments\20260805_174421
+2026-08-05 17:44:21,152 Environment: {'python_version': '3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]', 'torch_version': '2.3.0+cu118', 'platform': 'Windows-10-10.0.26200-SP0', 'cuda_available': True, 'gpu_name': 'NVIDIA GeForce RTX 3050', 'gpu_vram_gb': 8.59, 'cuda_version': '11.8'}
+2026-08-05 17:44:34,282 device=cuda precision=bf16 cpu_count=28 num_workers=0
+2026-08-05 17:44:34,282 Train records=109413 | Val records=4638
+2026-08-05 17:44:34,454 Model parameters: 25,203,140
+2026-08-05 17:44:35,705 Building auxiliary loss tensors (GC-deviation, soft mt-CAI) from training corpus...
+2026-08-05 17:44:39,572 Auxiliary losses active: lambda_gc=2.0 lambda_cai=0.0
+2026-08-05 18:01:39,056 Epoch 1/30 | train_loss=2.0101 | val_loss=1.0044 | elapsed=17.0min | train_ce=1.9806 | mean_gc_loss=0.0148 | mean_cai_loss=0.3212
+2026-08-05 18:01:39,490 Saved best checkpoint (val_loss=1.0044)
+2026-08-05 18:18:41,206 Epoch 2/30 | train_loss=1.0652 | val_loss=0.9624 | elapsed=34.0min | train_ce=1.0508 | mean_gc_loss=0.0072 | mean_cai_loss=0.2293
+2026-08-05 18:18:41,692 Saved best checkpoint (val_loss=0.9624)
+2026-08-05 18:35:43,374 Epoch 3/30 | train_loss=1.0479 | val_loss=0.9379 | elapsed=51.1min | train_ce=1.0351 | mean_gc_loss=0.0064 | mean_cai_loss=0.2296
+2026-08-05 18:35:43,869 Saved best checkpoint (val_loss=0.9379)
+2026-08-05 18:52:46,214 Epoch 4/30 | train_loss=1.0433 | val_loss=0.9312 | elapsed=68.1min | train_ce=1.0313 | mean_gc_loss=0.0060 | mean_cai_loss=0.2298
+2026-08-05 18:52:46,741 Saved best checkpoint (val_loss=0.9312)
+2026-08-05 19:09:47,965 Epoch 5/30 | train_loss=1.0377 | val_loss=0.9233 | elapsed=85.1min | train_ce=1.0266 | mean_gc_loss=0.0055 | mean_cai_loss=0.2300
+2026-08-05 19:09:48,474 Saved best checkpoint (val_loss=0.9233)
+2026-08-05 19:26:50,749 Epoch 6/30 | train_loss=1.0338 | val_loss=0.9143 | elapsed=102.2min | train_ce=1.0232 | mean_gc_loss=0.0053 | mean_cai_loss=0.2301
+2026-08-05 19:26:51,269 Saved best checkpoint (val_loss=0.9143)
+2026-08-05 19:43:53,565 Epoch 7/30 | train_loss=1.0297 | val_loss=0.9086 | elapsed=119.2min | train_ce=1.0197 | mean_gc_loss=0.0050 | mean_cai_loss=0.2303
+2026-08-05 19:43:54,081 Saved best checkpoint (val_loss=0.9086)
+2026-08-05 20:00:56,200 Epoch 8/30 | train_loss=1.0252 | val_loss=0.9041 | elapsed=136.3min | train_ce=1.0158 | mean_gc_loss=0.0047 | mean_cai_loss=0.2304
+2026-08-05 20:00:56,714 Saved best checkpoint (val_loss=0.9041)
+2026-08-05 20:17:59,104 Epoch 9/30 | train_loss=1.0219 | val_loss=0.8980 | elapsed=153.3min | train_ce=1.0128 | mean_gc_loss=0.0046 | mean_cai_loss=0.2306
+2026-08-05 20:17:59,603 Saved best checkpoint (val_loss=0.8980)
+2026-08-05 20:35:01,849 Epoch 10/30 | train_loss=1.0183 | val_loss=0.8922 | elapsed=170.4min | train_ce=1.0095 | mean_gc_loss=0.0044 | mean_cai_loss=0.2307
+2026-08-05 20:35:02,387 Saved best checkpoint (val_loss=0.8922)
+2026-08-05 20:52:05,114 Epoch 11/30 | train_loss=1.0147 | val_loss=0.8864 | elapsed=187.4min | train_ce=1.0061 | mean_gc_loss=0.0043 | mean_cai_loss=0.2309
+2026-08-05 20:52:05,664 Saved best checkpoint (val_loss=0.8864)
+2026-08-05 21:09:08,124 Epoch 12/30 | train_loss=1.0108 | val_loss=0.8828 | elapsed=204.5min | train_ce=1.0026 | mean_gc_loss=0.0041 | mean_cai_loss=0.2310
+2026-08-05 21:09:08,632 Saved best checkpoint (val_loss=0.8828)
+2026-08-05 21:26:11,532 Epoch 13/30 | train_loss=1.0072 | val_loss=0.8799 | elapsed=221.5min | train_ce=0.9991 | mean_gc_loss=0.0040 | mean_cai_loss=0.2312
+2026-08-05 21:26:12,059 Saved best checkpoint (val_loss=0.8799)
+2026-08-05 21:43:14,795 Epoch 14/30 | train_loss=1.0033 | val_loss=0.8782 | elapsed=238.6min | train_ce=0.9955 | mean_gc_loss=0.0039 | mean_cai_loss=0.2313
+2026-08-05 21:43:15,359 Saved best checkpoint (val_loss=0.8782)
+2026-08-05 22:00:17,320 Epoch 15/30 | train_loss=0.9993 | val_loss=0.8779 | elapsed=255.6min | train_ce=0.9920 | mean_gc_loss=0.0037 | mean_cai_loss=0.2315
+2026-08-05 22:00:17,881 Saved best checkpoint (val_loss=0.8779)
+2026-08-05 22:17:19,938 Epoch 16/30 | train_loss=0.9955 | val_loss=0.8712 | elapsed=272.7min | train_ce=0.9883 | mean_gc_loss=0.0036 | mean_cai_loss=0.2316
+2026-08-05 22:17:20,498 Saved best checkpoint (val_loss=0.8712)
+2026-08-05 22:34:23,291 Epoch 17/30 | train_loss=0.9916 | val_loss=0.8738 | elapsed=289.7min | train_ce=0.9846 | mean_gc_loss=0.0035 | mean_cai_loss=0.2318
+2026-08-05 22:51:25,835 Epoch 18/30 | train_loss=0.9873 | val_loss=0.8733 | elapsed=306.8min | train_ce=0.9805 | mean_gc_loss=0.0034 | mean_cai_loss=0.2320
+2026-08-05 23:08:29,036 Epoch 19/30 | train_loss=0.9829 | val_loss=0.8741 | elapsed=323.8min | train_ce=0.9765 | mean_gc_loss=0.0032 | mean_cai_loss=0.2322
+2026-08-05 23:25:31,553 Epoch 20/30 | train_loss=0.9788 | val_loss=0.8730 | elapsed=340.9min | train_ce=0.9723 | mean_gc_loss=0.0033 | mean_cai_loss=0.2323
+2026-08-05 23:42:33,929 Epoch 21/30 | train_loss=0.9746 | val_loss=0.8742 | elapsed=357.9min | train_ce=0.9682 | mean_gc_loss=0.0032 | mean_cai_loss=0.2325
+2026-08-05 23:59:36,155 Epoch 22/30 | train_loss=0.9699 | val_loss=0.8741 | elapsed=374.9min | train_ce=0.9638 | mean_gc_loss=0.0030 | mean_cai_loss=0.2328
+2026-08-06 00:16:38,781 Epoch 23/30 | train_loss=0.9656 | val_loss=0.8807 | elapsed=392.0min | train_ce=0.9597 | mean_gc_loss=0.0030 | mean_cai_loss=0.2330
+2026-08-06 00:33:41,224 Epoch 24/30 | train_loss=0.9612 | val_loss=0.8831 | elapsed=409.0min | train_ce=0.9554 | mean_gc_loss=0.0029 | mean_cai_loss=0.2332
+2026-08-06 00:50:44,483 Epoch 25/30 | train_loss=0.9568 | val_loss=0.8871 | elapsed=426.1min | train_ce=0.9512 | mean_gc_loss=0.0028 | mean_cai_loss=0.2335
+2026-08-06 01:07:46,920 Epoch 26/30 | train_loss=0.9525 | val_loss=0.8907 | elapsed=443.1min | train_ce=0.9471 | mean_gc_loss=0.0027 | mean_cai_loss=0.2337
+2026-08-06 01:07:47,159 Early stopping at epoch 26 (no improvement for 10 epochs)
+2026-08-06 01:07:47,159 Training complete. Best val_loss=0.8712. Total time=443.1min

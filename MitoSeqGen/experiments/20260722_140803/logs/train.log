@@ -1,0 +1,61 @@
+2026-07-22 14:08:03,550 Run directory: C:\Users\Sravan\GeMet\MitoSeqGen\experiments\20260722_140803
+2026-07-22 14:08:03,576 Environment: {'python_version': '3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]', 'torch_version': '2.3.0+cu118', 'platform': 'Windows-10-10.0.26200-SP0', 'cuda_available': True, 'gpu_name': 'NVIDIA GeForce RTX 3050', 'gpu_vram_gb': 8.59, 'cuda_version': '11.8'}
+2026-07-22 14:08:16,621 device=cuda precision=bf16 cpu_count=28 num_workers=0
+2026-07-22 14:08:16,621 Train records=109413 | Val records=4638
+2026-07-22 14:08:16,783 Model parameters: 25,203,140
+2026-07-22 14:25:08,453 Epoch 1/30 | train_loss=1.9008 | val_loss=0.9992 | elapsed=16.8min
+2026-07-22 14:25:08,517 Saved best checkpoint (val_loss=0.9992) to C:\Users\Sravan\GeMet\MitoSeqGen\experiments\20260722_140803\checkpoints\best.pt
+2026-07-22 14:42:00,670 Epoch 2/30 | train_loss=1.0494 | val_loss=0.9730 | elapsed=33.7min
+2026-07-22 14:42:00,752 Saved best checkpoint (val_loss=0.9730) to C:\Users\Sravan\GeMet\MitoSeqGen\experiments\20260722_140803\checkpoints\best.pt
+2026-07-22 14:58:51,913 Epoch 3/30 | train_loss=1.0362 | val_loss=0.9527 | elapsed=50.6min
+2026-07-22 14:58:52,001 Saved best checkpoint (val_loss=0.9527) to C:\Users\Sravan\GeMet\MitoSeqGen\experiments\20260722_140803\checkpoints\best.pt
+2026-07-23 09:15:02,439 Run directory: C:\Users\Sravan\GeMet\MitoSeqGen\experiments\20260722_140803 (resuming)
+2026-07-23 09:15:15,598 device=cuda precision=bf16 cpu_count=28 num_workers=0
+2026-07-23 09:15:15,598 Train records=109413 | Val records=4638
+2026-07-23 09:15:15,777 Model parameters: 25,203,140
+2026-07-23 09:15:17,172 Checkpoint has no scheduler state (saved before resume support was added) — LR schedule restarts from this point.
+2026-07-23 09:15:17,172 Resumed from epoch 3 (val_loss=0.9527); continuing at epoch 4
+2026-07-23 09:32:07,729 Epoch 4/30 | train_loss=1.0293 | val_loss=0.9323 | elapsed=16.8min
+2026-07-23 09:32:08,232 Saved best checkpoint (val_loss=0.9323)
+2026-07-23 09:48:59,589 Epoch 5/30 | train_loss=1.0289 | val_loss=0.9320 | elapsed=33.7min
+2026-07-23 09:49:00,066 Saved best checkpoint (val_loss=0.9320)
+2026-07-23 10:05:46,678 Epoch 6/30 | train_loss=1.0226 | val_loss=0.9156 | elapsed=50.5min
+2026-07-23 10:05:47,156 Saved best checkpoint (val_loss=0.9156)
+2026-07-23 10:22:33,806 Epoch 7/30 | train_loss=1.0209 | val_loss=0.9213 | elapsed=67.3min
+2026-07-23 10:39:20,176 Epoch 8/30 | train_loss=1.0163 | val_loss=0.9073 | elapsed=84.1min
+2026-07-23 10:39:20,650 Saved best checkpoint (val_loss=0.9073)
+2026-07-23 10:56:08,650 Epoch 9/30 | train_loss=1.0139 | val_loss=0.8988 | elapsed=100.9min
+2026-07-23 10:56:09,122 Saved best checkpoint (val_loss=0.8988)
+2026-07-23 11:13:01,855 Epoch 10/30 | train_loss=1.0109 | val_loss=0.8938 | elapsed=117.7min
+2026-07-23 11:13:02,313 Saved best checkpoint (val_loss=0.8938)
+2026-07-23 11:29:52,583 Epoch 11/30 | train_loss=1.0077 | val_loss=0.8890 | elapsed=134.6min
+2026-07-23 11:29:53,054 Saved best checkpoint (val_loss=0.8890)
+2026-07-23 11:46:43,570 Epoch 12/30 | train_loss=1.0043 | val_loss=0.8845 | elapsed=151.4min
+2026-07-23 11:46:44,160 Saved best checkpoint (val_loss=0.8845)
+2026-07-23 12:03:35,025 Epoch 13/30 | train_loss=1.0014 | val_loss=0.8818 | elapsed=168.3min
+2026-07-23 12:03:35,517 Saved best checkpoint (val_loss=0.8818)
+2026-07-23 12:20:26,750 Epoch 14/30 | train_loss=0.9980 | val_loss=0.8759 | elapsed=185.2min
+2026-07-23 12:20:27,248 Saved best checkpoint (val_loss=0.8759)
+2026-07-23 12:37:17,448 Epoch 15/30 | train_loss=0.9948 | val_loss=0.8739 | elapsed=202.0min
+2026-07-23 12:37:17,965 Saved best checkpoint (val_loss=0.8739)
+2026-07-23 12:54:08,143 Epoch 16/30 | train_loss=0.9915 | val_loss=0.8709 | elapsed=218.8min
+2026-07-23 12:54:08,682 Saved best checkpoint (val_loss=0.8709)
+2026-07-23 13:10:59,342 Epoch 17/30 | train_loss=0.9881 | val_loss=0.8721 | elapsed=235.7min
+2026-07-23 13:27:49,606 Epoch 18/30 | train_loss=0.9847 | val_loss=0.8700 | elapsed=252.5min
+2026-07-23 13:27:50,120 Saved best checkpoint (val_loss=0.8700)
+2026-07-23 13:44:40,953 Epoch 19/30 | train_loss=0.9810 | val_loss=0.8699 | elapsed=269.4min
+2026-07-23 13:44:41,465 Saved best checkpoint (val_loss=0.8699)
+2026-07-23 14:01:31,587 Epoch 20/30 | train_loss=0.9775 | val_loss=0.8666 | elapsed=286.2min
+2026-07-23 14:01:32,069 Saved best checkpoint (val_loss=0.8666)
+2026-07-23 14:18:21,946 Epoch 21/30 | train_loss=0.9738 | val_loss=0.8701 | elapsed=303.1min
+2026-07-23 14:35:11,831 Epoch 22/30 | train_loss=0.9699 | val_loss=0.8678 | elapsed=319.9min
+2026-07-23 14:52:01,708 Epoch 23/30 | train_loss=0.9662 | val_loss=0.8729 | elapsed=336.7min
+2026-07-23 15:08:51,734 Epoch 24/30 | train_loss=0.9623 | val_loss=0.8797 | elapsed=353.6min
+2026-07-23 15:25:42,643 Epoch 25/30 | train_loss=0.9585 | val_loss=0.8832 | elapsed=370.4min
+2026-07-23 15:42:33,789 Epoch 26/30 | train_loss=0.9546 | val_loss=0.8812 | elapsed=387.3min
+2026-07-23 15:59:25,365 Epoch 27/30 | train_loss=0.9506 | val_loss=0.8915 | elapsed=404.1min
+2026-07-23 16:16:17,110 Epoch 28/30 | train_loss=0.9468 | val_loss=0.8914 | elapsed=421.0min
+2026-07-23 16:33:07,876 Epoch 29/30 | train_loss=0.9432 | val_loss=0.8998 | elapsed=437.8min
+2026-07-23 16:49:58,973 Epoch 30/30 | train_loss=0.9397 | val_loss=0.9011 | elapsed=454.7min
+2026-07-23 16:49:59,231 Early stopping at epoch 30 (no improvement for 10 epochs)
+2026-07-23 16:49:59,231 Training complete. Best val_loss=0.8666. Total time=454.7min

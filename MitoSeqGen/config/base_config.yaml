@@ -1,0 +1,76 @@
+project:
+  name: MitoSeqGen
+  seed: 42
+
+data:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  qc_dir: data/qc_reports
+  splits_dir: data/splits
+  # Train uses the augmented (RSCU synonymous-variant) tokenized file; val/test
+  # indices from the same file resolve to the real, non-augmented records
+  # because augmented records are appended after the original ones.
+  tokenized_file: mito_cds_tokenized_augmented.json
+  train_split: train_augmented.json
+  val_split: val.json
+  test_split: test.json
+
+# Sized for an 8GB RTX 3050: ~30M params comfortably fits with room for
+# batch_size=32 + bf16 mixed precision + optimizer states. A 68-token codon
+# vocabulary over sub-2000nt sequences does not need a larger model.
+model:
+  d_model: 384
+  nhead: 6
+  num_encoder_layers: 6
+  num_decoder_layers: 6
+  dim_feedforward: 1536
+  dropout: 0.1
+  max_position_embeddings: 768
+
+training:
+  batch_size: 24
+  gradient_accumulation_steps: 2
+  learning_rate: 3.0e-4
+  weight_decay: 0.01
+  epochs: 30
+  warmup_steps: 1000
+  early_stopping_patience: 10
+  grad_clip_norm: 1.0
+  # Auxiliary loss weights (0.0 disables that term entirely).
+  #
+  # Two prior attempts at lambda_gc both measurably failed (see
+  # src/training/losses.py gc_deviation_loss docstring for full detail):
+  #   - Run 20260805_091030 (lambda_gc=0.15, batch-pooled vs. fixed [0.40,0.47]
+  #     band): logged mean_gc_loss ~= 1e-5 for all 28 epochs -- inert, no signal.
+  #   - Run 20260805_174421 (lambda_gc=2.0, per-sequence vs. true GC, but computed
+  #     over the *unrestricted* full-vocab softmax): loss curve looked healthy
+  #     during training (0.0148->0.0027) but the eval got *worse* on every metric
+  #     that matters (GC-delta-from-natural 0.0419->0.0564 p=3e-10, BLEU
+  #     0.3132->0.2809 p=1e-11) -- it "solved" the loss by shifting probability
+  #     onto biologically-invalid codons the decoder can never select, at the
+  #     cost of the real in-class distribution CE depends on.
+  #   - This run: gc_deviation_loss now restricts to the true target's synonym
+  #     class first (same masking pattern as soft_mt_cai_loss, which *did* work
+  #     as intended). Loss is now on a raw GC-base-count scale (0-3), a
+  #     different unit than either prior version, so neither previous lambda is
+  #     reusable. Chosen conservatively (0.3, smoke-tested at ~0.76 on an
+  #     untrained model) specifically to avoid repeating the over-powered
+  #     failure mode of the previous run -- will validate directionally on a
+  #     partial checkpoint before trusting the full run.
+  #   - lambda_cai stays 0.0: the soft mt-CAI loss worked exactly as designed
+  #     but moves *away* from natural (real mt sequences average mt-CAI 0.74,
+  #     below every codon-optimization baseline), which this project's
+  #     evaluation scores as worse, not better.
+  lambda_gc: 0.3
+  lambda_cai: 0.0
+
+hardware:
+  device: auto          # "auto" | "cuda" | "cpu"
+  mixed_precision: bf16 # "bf16" | "fp16" | "none" — bf16 native on Ampere (RTX 3050), no GradScaler needed
+  # Empirically measured (not assumed): __getitem__ here just returns
+  # pre-tokenized JSON data, no expensive per-item CPU work, so DataLoader
+  # worker subprocesses add pure IPC overhead with no parallelism benefit.
+  # 0 workers measured at 286ms/step vs 1473ms/step at 16 workers on this
+  # dataset/hardware. Re-benchmark if the dataset pipeline changes.
+  num_workers: 0
+  pin_memory: true
