@@ -14,7 +14,7 @@ Research-grade project scaffold for mitochondrial codon-aware mRNA sequence gene
 - `src/models/` - model architectures
 - `src/training/` - training scripts and loss functions
 - `src/evaluation/` - metrics and reviewer-ready results
-- `checkpoints/` - model weights and best checkpoints
+- `checkpoints/` - model weights and best checkpoints (not tracked in git due to file size; trained weights are published at https://huggingface.co/Sravankumarbonthada/mitoseqgen)
 - `paper/` - figure and supplementary data output
 - `webapp/` - dashboard for training/evaluation results plus a live CPU-inference demo (see `webapp/README.md`)
 
