@@ -5,10 +5,7 @@ Research-grade project scaffold for mitochondrial codon-aware mRNA sequence gene
 ## Project structure
 
 - `config/` - experiment configuration and hyperparameter overrides
-- `data/raw/` - raw downloads, never modified
-- `data/processed/` - QCed and preprocessed data
-- `data/splits/` - phylogenetic train/val/test split files
-- `data/qc_reports/` - dataset audit JSONs for supplementary material
+- `data/` - raw downloads, QCed/preprocessed data, splits, and QC audit JSONs (not tracked in git due to file size; the curated dataset is published at https://huggingface.co/datasets/Sravankumarbonthada/mitoseqgen-dataset)
 - `src/` - core codebase
 - `src/data/` - dataset creation and preprocessing
 - `src/models/` - model architectures
