@@ -1,4 +1,6 @@
-# MitoSeqGen 📄 Preprint: https://www.researchsquare.com/article/rs-10901669/v1
+# MitoSeqGen 
+
+📄 Preprint: https://www.researchsquare.com/article/rs-10901669/v1
 
 Research-grade project scaffold for mitochondrial codon-aware mRNA sequence generation.
 
