@@ -1,0 +1,17 @@
+2026-10-08 13:42:18,765 Run directory: C:\Users\Sravan\MItoDNA\MitoSeqGen\experiments\20261008_134218_ident70_none_s2
+2026-10-08 13:42:18,795 Environment: {'python_version': '3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]', 'torch_version': '2.3.0+cu118', 'platform': 'Windows-10-10.0.26200-SP0', 'cuda_available': True, 'gpu_name': 'NVIDIA GeForce RTX 3050', 'gpu_vram_gb': 8.59, 'cuda_version': '11.8'}
+2026-10-08 13:42:44,253 device=cuda precision=bf16 cpu_count=28 num_workers=0
+2026-10-08 13:42:44,253 Train records=113085 | Val records=929
+2026-10-08 13:42:44,553 Model parameters: 25,203,140
+2026-10-08 14:01:10,307 Epoch 1/13 | train_loss=1.7996 | val_loss=1.0110 | elapsed=18.3min
+2026-10-08 14:01:11,389 Saved best checkpoint (val_loss=1.0110)
+2026-10-08 14:19:25,425 Epoch 2/13 | train_loss=1.0500 | val_loss=0.9850 | elapsed=36.6min
+2026-10-08 14:19:26,631 Saved best checkpoint (val_loss=0.9850)
+2026-10-08 14:37:39,087 Epoch 3/13 | train_loss=1.0316 | val_loss=0.9728 | elapsed=54.8min
+2026-10-08 14:37:40,326 Saved best checkpoint (val_loss=0.9728)
+2026-10-08 14:55:59,900 Epoch 4/13 | train_loss=1.0249 | val_loss=0.9735 | elapsed=73.2min
+2026-10-08 15:14:06,915 Epoch 5/13 | train_loss=1.0199 | val_loss=0.9744 | elapsed=91.3min
+2026-10-08 15:32:19,633 Epoch 6/13 | train_loss=1.0147 | val_loss=0.9788 | elapsed=109.5min
+2026-10-08 15:50:34,338 Epoch 7/13 | train_loss=1.0100 | val_loss=0.9801 | elapsed=127.7min
+2026-10-08 15:50:34,948 Early stopping at epoch 7 (no improvement for 4 epochs)
+2026-10-08 15:50:34,948 Training complete. Best val_loss=0.9728. Total time=127.8min

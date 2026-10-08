@@ -1,0 +1,35 @@
+[eval ] ident70_none_s1 ...
+C:\Users\Sravan\AppData\Local\Programs\Python\Python310\lib\site-packages\torch\nn\modules\transformer.py:306: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.self_attn.batch_first was not True(use batch_first for better inference performance)
+  warnings.warn(f"enable_nested_tensor is True, but self.use_nested_tensor is False because {why_not_sparsity_fast_path}")
+generating 1325 sequences on cpu (condition=none, model n_conditions=0)...
+    250/1325 (1199s)
+    500/1325 (6107s)
+    750/1325 (7955s)
+    1000/1325 (11571s)
+    1250/1325 (16070s)
+scoring on 12 workers...
+
+=== ident70 (n=1325, 980 species) ===
+method                                   BLEU [95% CI]   mt-CAI   GCdev   MFEdev
+natural_reference              1.000 [1.000,1.000]    0.734   0.000     0.00
+homology_copy                  0.206 [0.201,0.210]    0.787   0.031    18.21
+mitoseqgen                     0.204 [0.198,0.210]    0.929   0.035    43.34
+mt_cai_lookup                  0.164 [0.159,0.169]    1.000   0.030    46.22
+most_frequent_codon            0.164 [0.159,0.169]    1.000   0.030    46.22
+codontransformer_remap         0.118 [0.114,0.122]    0.910   0.034    16.85
+random_synonymous              0.071 [0.069,0.074]    0.555   0.043    69.56
+
+=== paired comparisons (BLEU, species bootstrap) ===
+  ns  mitoseqgen_vs_homology_copy                   diff -0.0014 CI [-0.0067,+0.0042] model better on 57%
+  SIG mitoseqgen_vs_mt_cai_lookup                   diff +0.0400 CI [+0.0358,+0.0440] model better on 74%
+  SIG mitoseqgen_vs_most_frequent_codon             diff +0.0400 CI [+0.0358,+0.0440] model better on 74%
+  SIG mitoseqgen_vs_codontransformer_remap          diff +0.0864 CI [+0.0822,+0.0907] model better on 89%
+  SIG mitoseqgen_vs_random_synonymous               diff +0.1329 CI [+0.1268,+0.1392] model better on 87%
+
+total 17633s
+[ok   ] ident70_none_s1: BLEU 0.2042, vs copy -0.0014
+[train] ident70_strand_s1: still training (epoch 9, last write -67 min ago)
+
+already evaluated: 0 | evaluated now: 1 | not ready: 1 | failed: 0
+
+run `python scripts/aggregate_seeds.py` to summarise

@@ -20,11 +20,21 @@ class MitoSeqTransformer(nn.Module):
         dim_feedforward: int = 1024,
         dropout: float = 0.1,
         max_position_embeddings: int = 1024,
+        n_conditions: int = 0,
     ):
         super().__init__()
         self.src_embedding = nn.Embedding(src_vocab_size, d_model)
         self.tgt_embedding = nn.Embedding(tgt_vocab_size, d_model)
         self.position_embedding = nn.Embedding(max_position_embeddings, d_model)
+        # Optional sequence-level conditioning, added to every encoder position like
+        # a BERT segment embedding. Used to supply replication-strand identity: in
+        # vertebrate mtDNA, ND6 is the only protein-coding gene on the light strand
+        # and carries the opposite GC skew, which a model trained on the pooled 13
+        # genes otherwise averages away. n_conditions=0 keeps the original
+        # architecture exactly, so existing checkpoints still load.
+        self.n_conditions = n_conditions
+        if n_conditions > 0:
+            self.condition_embedding = nn.Embedding(n_conditions, d_model)
         encoder_layer = nn.TransformerEncoderLayer(d_model=d_model, nhead=nhead, dim_feedforward=dim_feedforward, dropout=dropout)
         decoder_layer = nn.TransformerDecoderLayer(d_model=d_model, nhead=nhead, dim_feedforward=dim_feedforward, dropout=dropout)
         self.encoder = nn.TransformerEncoder(encoder_layer, num_layers=num_encoder_layers)
@@ -47,10 +57,13 @@ class MitoSeqTransformer(nn.Module):
         tgt_mask=None,
         src_key_padding_mask=None,
         tgt_key_padding_mask=None,
+        cond=None,
     ):
         src_positions = torch.arange(src.shape[0], device=src.device).unsqueeze(1)
         tgt_positions = torch.arange(tgt.shape[0], device=tgt.device).unsqueeze(1)
         src_emb = self.src_embedding(src) + self.position_embedding(src_positions)
+        if self.n_conditions > 0 and cond is not None:
+            src_emb = src_emb + self.condition_embedding(cond).unsqueeze(0)
         tgt_emb = self.tgt_embedding(tgt) + self.position_embedding(tgt_positions)
         memory = self.encoder(src_emb, mask=src_mask, src_key_padding_mask=src_key_padding_mask)
         if tgt_mask is None:
@@ -64,9 +77,11 @@ class MitoSeqTransformer(nn.Module):
         )
         return self.output_projection(output)
 
-    def encode(self, src, src_key_padding_mask=None):
+    def encode(self, src, src_key_padding_mask=None, cond=None):
         src_positions = torch.arange(src.shape[0], device=src.device).unsqueeze(1)
         src_emb = self.src_embedding(src) + self.position_embedding(src_positions)
+        if self.n_conditions > 0 and cond is not None:
+            src_emb = src_emb + self.condition_embedding(cond).unsqueeze(0)
         return self.encoder(src_emb, src_key_padding_mask=src_key_padding_mask)
 
     def decode(self, tgt, memory, tgt_mask=None, tgt_key_padding_mask=None, memory_key_padding_mask=None):

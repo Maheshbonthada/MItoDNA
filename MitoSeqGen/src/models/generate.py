@@ -34,6 +34,7 @@ def generate_cds(
     strategy: str = "greedy",
     temperature: float = 1.0,
     rng: Optional[torch.Generator] = None,
+    cond: Optional[int] = None,
 ) -> str:
     """protein_sequence: raw amino-acid string (no BOS/EOS/stop marker).
     strategy: "greedy" (argmax, deterministic) or "sample" (temperature-scaled
@@ -42,7 +43,10 @@ def generate_cds(
 
     src_ids = [AA_VOCAB["<BOS>"]] + [AA_VOCAB.get(aa, AA_VOCAB["<UNK>"]) for aa in protein_sequence] + [AA_VOCAB["<EOS>"]]
     src = torch.tensor(src_ids, dtype=torch.long, device=device).unsqueeze(1)  # (seq_len, batch=1)
-    memory = model.encode(src)
+    cond_t = None
+    if cond is not None and getattr(model, "n_conditions", 0) > 0:
+        cond_t = torch.tensor([cond], dtype=torch.long, device=device)
+    memory = model.encode(src, cond=cond_t)
 
     tgt_ids: List[int] = [VOCAB["<BOS>"]]
     for aa in protein_sequence:
@@ -108,7 +112,10 @@ def generate_cds_gc_guided(
 
     src_ids = [AA_VOCAB["<BOS>"]] + [AA_VOCAB.get(aa, AA_VOCAB["<UNK>"]) for aa in protein_sequence] + [AA_VOCAB["<EOS>"]]
     src = torch.tensor(src_ids, dtype=torch.long, device=device).unsqueeze(1)
-    memory = model.encode(src)
+    cond_t = None
+    if cond is not None and getattr(model, "n_conditions", 0) > 0:
+        cond_t = torch.tensor([cond], dtype=torch.long, device=device)
+    memory = model.encode(src, cond=cond_t)
 
     tgt_ids: List[int] = [VOCAB["<BOS>"]]
     gc_bases_so_far = 0
@@ -164,6 +171,7 @@ def load_model_from_checkpoint(checkpoint_path: Path, device: torch.device) -> M
         dim_feedforward=config["dim_feedforward"],
         dropout=config["dropout"],
         max_position_embeddings=config["max_position_embeddings"],
+        n_conditions=config.get("n_conditions", 0),
     ).to(device)
     model.load_state_dict(ckpt["model_state_dict"])
     model.eval()

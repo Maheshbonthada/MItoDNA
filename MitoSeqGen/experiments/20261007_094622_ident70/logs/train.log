@@ -1,0 +1,23 @@
+2026-10-07 09:46:22,364 Run directory: C:\Users\Sravan\MItoDNA\MitoSeqGen\experiments\20261007_094622_ident70
+2026-10-07 09:46:22,379 Environment: {'python_version': '3.10.11 (tags/v3.10.11:7d4cc5a, Apr  5 2023, 00:38:17) [MSC v.1929 64 bit (AMD64)]', 'torch_version': '2.3.0+cu118', 'platform': 'Windows-10-10.0.26200-SP0', 'cuda_available': True, 'gpu_name': 'NVIDIA GeForce RTX 3050', 'gpu_vram_gb': 8.59, 'cuda_version': '11.8'}
+2026-10-07 09:46:31,259 device=cuda precision=bf16 cpu_count=28 num_workers=0
+2026-10-07 09:46:31,259 Train records=113085 | Val records=929
+2026-10-07 09:46:31,447 Model parameters: 25,203,140
+2026-10-07 10:04:04,597 Epoch 1/30 | train_loss=1.8543 | val_loss=1.0574 | elapsed=17.5min
+2026-10-07 10:04:05,018 Saved best checkpoint (val_loss=1.0574)
+2026-10-07 10:21:55,911 Epoch 2/30 | train_loss=1.0501 | val_loss=0.9844 | elapsed=35.4min
+2026-10-07 10:21:56,480 Saved best checkpoint (val_loss=0.9844)
+2026-10-07 10:39:28,233 Epoch 3/30 | train_loss=1.0375 | val_loss=0.9766 | elapsed=52.9min
+2026-10-07 10:39:28,711 Saved best checkpoint (val_loss=0.9766)
+2026-10-07 10:56:58,978 Epoch 4/30 | train_loss=1.0285 | val_loss=0.9781 | elapsed=70.4min
+2026-10-07 11:14:29,228 Epoch 5/30 | train_loss=1.0232 | val_loss=0.9812 | elapsed=87.9min
+2026-10-07 11:31:59,541 Epoch 6/30 | train_loss=1.0191 | val_loss=0.9790 | elapsed=105.4min
+2026-10-07 11:49:29,486 Epoch 7/30 | train_loss=1.0161 | val_loss=0.9853 | elapsed=122.9min
+2026-10-07 12:07:02,871 Epoch 8/30 | train_loss=1.0125 | val_loss=0.9825 | elapsed=140.5min
+2026-10-07 12:24:36,679 Epoch 9/30 | train_loss=1.0085 | val_loss=0.9827 | elapsed=158.1min
+2026-10-07 12:42:11,297 Epoch 10/30 | train_loss=1.0055 | val_loss=0.9899 | elapsed=175.6min
+2026-10-07 12:59:47,244 Epoch 11/30 | train_loss=1.0021 | val_loss=0.9890 | elapsed=193.2min
+2026-10-07 13:17:22,992 Epoch 12/30 | train_loss=0.9988 | val_loss=0.9902 | elapsed=210.8min
+2026-10-07 13:34:57,939 Epoch 13/30 | train_loss=0.9952 | val_loss=0.9925 | elapsed=228.4min
+2026-10-07 13:34:58,270 Early stopping at epoch 13 (no improvement for 10 epochs)
+2026-10-07 13:34:58,270 Training complete. Best val_loss=0.9766. Total time=228.4min

@@ -67,6 +67,9 @@ def resolve_num_workers(pref, cpu_count: int) -> int:
 
 def make_run_dir(config: dict) -> Path:
     run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
+    tag = config.get("project", {}).get("run_tag")
+    if tag:
+        run_id = f"{run_id}_{tag}"
     run_dir = EXPERIMENTS_DIR / run_id
     (run_dir / "checkpoints").mkdir(parents=True, exist_ok=True)
     (run_dir / "logs").mkdir(parents=True, exist_ok=True)
@@ -96,6 +99,18 @@ def train_collate(batch):
     return collate_fn(batch, pad_token_id=VOCAB["<PAD>"])
 
 
+def make_conditional_collate(mode: str):
+    """Collate that also returns the per-sequence conditioning id (strand or gene)."""
+    from src.strand import condition_of
+
+    def _collate(batch):
+        src, tgt = collate_fn(batch, pad_token_id=VOCAB["<PAD>"])
+        cond = torch.tensor([condition_of(r.get("gene_name", ""), mode) for r in batch], dtype=torch.long)
+        return src, tgt, cond
+
+    return _collate
+
+
 def make_autocast(device: torch.device, amp_dtype):
     if amp_dtype is None:
         from contextlib import nullcontext
@@ -104,14 +119,19 @@ def make_autocast(device: torch.device, amp_dtype):
 
 
 @torch.no_grad()
-def evaluate(model, dataloader, criterion, device, amp_dtype):
+def evaluate(model, dataloader, criterion, device, amp_dtype):  # noqa: C901
     model.eval()
     total_loss = 0.0
     n = 0
-    for src, tgt in dataloader:
+    for batch in dataloader:
+        if len(batch) == 3:
+            src, tgt, cond = batch
+            cond = cond.to(device)
+        else:
+            (src, tgt), cond = batch, None
         src, tgt = src.to(device), tgt.to(device)
         with make_autocast(device, amp_dtype):
-            logits = model(src, tgt[:-1, :])
+            logits = model(src, tgt[:-1, :], cond=cond)
             loss = criterion(logits.reshape(-1, logits.shape[-1]), tgt[1:, :].reshape(-1))
         total_loss += loss.item()
         n += 1
@@ -130,6 +150,7 @@ def build_model(config: dict, device: torch.device) -> MitoSeqTransformer:
         dim_feedforward=m["dim_feedforward"],
         dropout=m["dropout"],
         max_position_embeddings=m["max_position_embeddings"],
+        n_conditions=m.get("n_conditions", 0),
     ).to(device)
     return model
 
@@ -141,12 +162,54 @@ def parse_args():
         help="Path to a checkpoint (e.g. experiments/<run_id>/checkpoints/latest.pt) to resume training from. "
              "Continues in the same run directory and appends to its existing metrics history.",
     )
+    parser.add_argument(
+        "--config", type=str, default=None,
+        help="Alternative config YAML (default: config/base_config.yaml). Used to train on "
+             "alternative splits, e.g. the identity-controlled benchmark, without editing the "
+             "published base config.",
+    )
+    parser.add_argument(
+        "--condition", type=str, default="none", choices=["none", "strand", "gene"],
+        help="Sequence-level conditioning signal. 'strand' supplies one bit (heavy vs light "
+             "replication strand); ND6 is the only light-strand gene and carries the opposite "
+             "GC skew. 'gene' supplies the 13-way gene identity.",
+    )
+    parser.add_argument(
+        "--seed", type=int, default=None,
+        help="Override config project.seed. Used for seed-replication runs: training "
+             "variance is a separate source of uncertainty from the data-sampling "
+             "variance that the species-level bootstrap quantifies.",
+    )
+    parser.add_argument(
+        "--epochs", type=int, default=None,
+        help="Override config training.epochs.",
+    )
+    parser.add_argument(
+        "--patience", type=int, default=None,
+        help="Override config training.early_stopping_patience.",
+    )
+    parser.add_argument(
+        "--tag", type=str, default=None,
+        help="Suffix appended to the run directory name, so runs from different configs are "
+             "distinguishable in experiments/.",
+    )
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
-    config = load_config()
+    config = load_config(Path(args.config)) if args.config else load_config()
+    if args.tag:
+        config.setdefault("project", {})["run_tag"] = args.tag
+    from src.strand import n_conditions as _n_cond
+    config["model"]["n_conditions"] = _n_cond(args.condition)
+    config["model"]["condition_mode"] = args.condition
+    if args.seed is not None:
+        config["project"]["seed"] = args.seed
+    if args.epochs is not None:
+        config["training"]["epochs"] = args.epochs
+    if args.patience is not None:
+        config["training"]["early_stopping_patience"] = args.patience
     set_seed(config["project"]["seed"])
 
     cpu_count = os.cpu_count() or 1
@@ -184,6 +247,7 @@ def main():
     logging.info(f"device={device} precision={precision} cpu_count={cpu_count} num_workers={num_workers}")
     logging.info(f"Train records={len(train_dataset)} | Val records={len(val_dataset)}")
 
+    _collate_fn = train_collate if args.condition == "none" else make_conditional_collate(args.condition)
     batch_size = config["training"]["batch_size"]
     pin_memory = config["hardware"]["pin_memory"] and device.type == "cuda"
 
@@ -192,11 +256,11 @@ def main():
 
     train_loader = DataLoader(
         train_dataset, batch_sampler=train_sampler, num_workers=num_workers,
-        pin_memory=pin_memory, collate_fn=train_collate, persistent_workers=num_workers > 0,
+        pin_memory=pin_memory, collate_fn=_collate_fn, persistent_workers=num_workers > 0,
     )
     val_loader = DataLoader(
         val_dataset, batch_sampler=val_sampler, num_workers=num_workers,
-        pin_memory=pin_memory, collate_fn=train_collate, persistent_workers=num_workers > 0,
+        pin_memory=pin_memory, collate_fn=_collate_fn, persistent_workers=num_workers > 0,
     )
 
     model = build_model(config, device)
@@ -258,11 +322,16 @@ def main():
         model.train()
         total_loss, total_ce, total_gc, total_cai = 0.0, 0.0, 0.0, 0.0
         optimizer.zero_grad()
-        for step, (src, tgt) in enumerate(train_loader):
+        for step, batch in enumerate(train_loader):
+            if len(batch) == 3:
+                src, tgt, cond = batch
+                cond = cond.to(device, non_blocking=pin_memory)
+            else:
+                (src, tgt), cond = batch, None
             src, tgt = src.to(device, non_blocking=pin_memory), tgt.to(device, non_blocking=pin_memory)
             targets = tgt[1:, :]
             with make_autocast(device, amp_dtype):
-                logits = model(src, tgt[:-1, :])
+                logits = model(src, tgt[:-1, :], cond=cond)
                 ce = criterion(logits.reshape(-1, logits.shape[-1]), targets.reshape(-1))
                 if aux_losses is not None:
                     non_pad_mask = targets != VOCAB["<PAD>"]

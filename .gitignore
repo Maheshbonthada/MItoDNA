@@ -18,3 +18,10 @@ __pycache__/
 # Local backend run logs (not experiment logs)
 MitoSeqGen/webapp/backend/*.log
 
+
+# 326 MB staging folder for the Hugging Face artefact upload (not for git)
+release_staging/
+
+# stray build/scan output
+texput.log
+nonascii_report.txt
